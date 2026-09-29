@@ -23,7 +23,10 @@ jobs:
       - run: python -m unittest discover -s tests -p "test_*.py" -v
 
   linux-integration:
-    runs-on: ubuntu-latest
+    # Bubblewrap needs unprivileged user namespaces. Ubuntu 24.04 hosted runners
+    # restrict them with AppArmor, so use the 22.04 image for the sandboxed E2E
+    # test instead of weakening the runner's security policy with sudo sysctls.
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

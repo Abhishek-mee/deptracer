@@ -80,6 +80,17 @@ def run_and_trace(
                     f"Traced application exceeded the {timeout:g}s timeout"
                 ) from exc
             rc = process.returncode
+
+        # Bubblewrap failures otherwise look like ordinary application exits,
+        # which hides the actual environment/setup problem from the user.
+        if rc:
+            try:
+                launcher_error = open(stderr_log, "r", encoding="utf-8", errors="replace").read()
+            except OSError:
+                launcher_error = ""
+            if "bwrap:" in launcher_error:
+                detail = launcher_error.strip().splitlines()[-1]
+                raise TraceLaunchError(f"Bubblewrap could not create the sandbox: {detail}")
             
         return log_name, stderr_log, rc
         
