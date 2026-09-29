@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.deptracer/
+build/
+dist/
+dist-native/
+*.trace.log
+*.stderr.log

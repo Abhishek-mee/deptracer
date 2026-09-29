@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deptracer"
+version = "0.2.0"
+description = "Trace and bundle runtime dependencies for PyInstaller and native binaries"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+  {name = "deptracer contributors"},
+]
+dependencies = []
+
+[project.optional-dependencies]
+windows = ["pefile>=2023.2.7"]
+build = ["pyinstaller>=5"]
+
+[project.scripts]
+deptracer = "deptracer.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["deptracer*"]
